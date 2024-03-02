@@ -26,4 +26,6 @@ EJECUTAR ARCHIVOS .PY
 
       pygame (igiual son los mismos comandos, solo reemplaza el geocoder por pygame)
 
+Y RECUERDA DESCOMPRIMIR LA CARPETA DE MUSICA EN EL MISMO DIRECTORIO DE SU UBICACIONNNNN
+
       bueno es todo bai
