@@ -1,4 +1,5 @@
-Hola Jose, bienvenido a esta cosa toda rancia e inestable llamada phantom ak codename "Fernweh" (Beta release 1) (quizas mediante avancen las betas, los nomnres cambien xd)
+Hola Jose, bienvenido a esta cosa toda rancia e inestable llamada phantom ak codename "Fernweh" (Beta release 1) 
+(quizas mediante avancen las betas, los nomnres cambien xd)
 
 Esta beta no incluye demasiados cambios, solo fue el ingreso de la base de datos en el codigo main y el instalador de ahi en mas en si sigue siendo la 1.9, en este readme
 ire poniendo los cambios de cada beta
@@ -25,6 +26,10 @@ EJECUTAR ARCHIVOS .PY
       PIP: sudo dnf install python3-pip, pip install geocoder
 
       pygame (igiual son los mismos comandos, solo reemplaza el geocoder por pygame)
+
+usuarios: creas tu usuario con el U7, despues detienes el programa  y lo vuelves a a ejecutar pero ahora con el usuario que creaste, va?
+
+detienes con control + c
 
 Y RECUERDA DESCOMPRIMIR LA CARPETA DE MUSICA EN EL MISMO DIRECTORIO DE SU UBICACIONNNNN
 
