@@ -16,6 +16,7 @@ Apartados:
 - C5 (CLIMA)
 - A6(APAGADO)
 -S5 (Configuracion del sistema (reportar errores))
+-U7- crear usuario
     ''')
 
 print('''
@@ -26,9 +27,9 @@ print('''
  xxxxxxxxxxxxxxxxxxxxxx
 ''')
 
-def verificar_credenciales(username, password):
+def verificar_credenciales(username, password, dbpath):
     try:
-        connection = sqlite3.connect(credentials.db)
+        connection = sqlite3.connect(dbpath)
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM users WHERE username =? AND password=?", (username, password))
         user = cursor.fetchone()
@@ -40,10 +41,22 @@ def verificar_credenciales(username, password):
         if connection:
             connection.close()
 
+def crear_usuario(username, password, dbpath):
+    try:
+        connection = sqlite3.connect(dbpath)
+        cursor = connection.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
+        cursor.execute("INSERT INTO users VALUES (?, ?)", (username, password))
+        connection.commit()
+        print("Usuario creado exitosamente.")
+    except sqlite3.Error as error:
+        print("Error al crear usuario: ", error)
+    finally:
+        if connection:
+            connection.close()
+
 def verificar_credenciales_default(username, password):
     return username == "root" and password == "root"
-
-
 
 print("Bienvenido")
 print("Login default, username: root, password: root")
@@ -53,16 +66,15 @@ password_input = getpass.getpass("Ingrese el password:")
 if verificar_credenciales_default(username_input, password_input):
     print("")
 else:
-    while not verificar_credenciales(username_input, password_input, dbpath):
+    while not verificar_credenciales(username_input, password_input, 'credentials.db'):
         password_input = getpass.getpass("Ingrese correctamente el password: ")
-
 
 primera_vez = True
 
 while True:
     if primera_vez:
         print("Bienvenido a PhantomAK 1.9")
-        print(username_input)
+        print("username_input")
         print("Creado por Gael Meza")
         print("Hoy es:")
         print(time.strftime("%d/%m/%y"))
@@ -90,7 +102,6 @@ El bloc de notas abrirá en un momento
         print ("Configuracion del sistema")
         print("Puede enviar un correo electrónico a g_meza3@icloud.com, para informar sobre el problema.")
 
-
     elif window == "C2":
         print("La Calculadora iniciará en un momento...")
         subprocess.run(["python", "calculadora.py"])
@@ -114,3 +125,10 @@ El bloc de notas abrirá en un momento
 
     elif window == "C5":
         exec(open("clima.py").read())
+
+    elif window == "U7":
+        print("Crear nuevo usuario:")
+        nuevo_username = input("Ingrese el nuevo nombre de usuario: ")
+        nuevo_password = getpass.getpass("Ingrese la nueva contraseña: ")
+        crear_usuario(nuevo_username, nuevo_password, 'credentials.db')
+
