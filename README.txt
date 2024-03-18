@@ -1,4 +1,4 @@
-Hola Jose, bienvenido a esta cosa toda rancia e inestable llamada phantom ak codename "Fernweh" (Beta release 1) 
+Hola Jasmir, bienvenido a esta cosa toda rancia e inestable llamada phantom ak codename "Fernweh" (Beta release 1) 
 (quizas mediante avancen las betas, los nomnres cambien xd)
 
 Esta beta no incluye demasiados cambios, solo fue el ingreso de la base de datos en el codigo main y el instalador de ahi en mas en si sigue siendo la 1.9, en este readme
