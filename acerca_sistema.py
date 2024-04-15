@@ -10,12 +10,10 @@ def mostrar_informacion_tecnica():
 
     def actualizar_mensaje_ferel():
         mensaje_ferel = f"""
-        Phantom AK Codename Ferel
+        Phantom AK Codename feather
         (Compilacion PA-1.9.0.227)
         
-        Este programa está dedicado a Fer<3
-        
-        Escrito el 21 De diciembre del 2023
+        las funciones en este programa estan en prueba
         
         Creado por Gael Meza
         
