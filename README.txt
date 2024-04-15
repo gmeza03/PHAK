@@ -4,6 +4,9 @@ Hola Jasmir, bienvenido a esta cosa toda rancia e inestable llamada phantom ak c
 Esta beta no incluye demasiados cambios, solo fue el ingreso de la base de datos en el codigo main y el instalador de ahi en mas en si sigue siendo la 1.9, en este readme
 ire poniendo los cambios de cada beta
 
+BETA 1: En el inicio de sesion se ha includo una base de datos
+RC1 (Release Candidate 1): En este se incluye configuracion previa, ademas se incluye el cerrar sesion y un atajo a la terminal., tambien el instalador supone que ya debe instalar las dependencias
+
 Bueno, antes de que te pongas a moverle a mi porqueria te dare los comandos para fedora (suponiendo que estas ejecutando en Linux) para instalar sus dependencias y ejecutar
 archivos .py
 
