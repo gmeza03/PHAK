@@ -4,6 +4,13 @@ import platform
 from datetime import datetime
 import time
 import sqlite3
+import os
+
+def limpiar_consola():
+    if platform.system() == "Windows":
+        os.system('cls')  # Limpiar consola en Windows
+    else:
+        os.system('clear')  # Limpiar consola en Unix (Linux, macOS)
 
 def mostrar_menu_apartados():
     print('''
@@ -16,7 +23,8 @@ Apartados:
 - C5 (CLIMA)
 - A6(APAGADO)
 -S5 (Configuracion del sistema (reportar errores))
--U7- crear usuario
+-T7 (TERMINAL)
+-C8 (Cerrar Sesipn)
     ''')
 
 print('''
@@ -35,7 +43,7 @@ def verificar_credenciales(username, password, dbpath):
         user = cursor.fetchone()
         return user is not None
     except sqlite3.Error as error:
-        print("Un error ocurrio mientras se verificaban las crendenciales: ", error)
+        print("Un error ocurrió mientras se verificaban las credenciales: ", error)
         return False
     finally:
         if connection:
@@ -58,77 +66,103 @@ def crear_usuario(username, password, dbpath):
 def verificar_credenciales_default(username, password):
     return username == "root" and password == "root"
 
-print("Bienvenido")
-print("Login default, username: root, password: root")
-
-username_input = str(input("Escribe tu nombre:"))
-password_input = getpass.getpass("Ingrese el password:")
-if verificar_credenciales_default(username_input, password_input):
-    print("")
-else:
-    while not verificar_credenciales(username_input, password_input, 'credentials.db'):
-        password_input = getpass.getpass("Ingrese correctamente el password: ")
-
-primera_vez = True
-
-while True:
-    if primera_vez:
-        print("Bienvenido a PhantomAK 1.9")
-        print("username_input")
-        print("Creado por Gael Meza")
-        print("Hoy es:")
-        print(time.strftime("%d/%m/%y"))
-        hora_actual = datetime.now().strftime("%H:%M:%S")
-        print(f"La hora es: {hora_actual}")
-        primera_vez = False
+def realizar_preconfiguracion(dbpath):
+    if os.path.exists(dbpath):
+        print("...")
+        return True
     else:
-        mostrar_menu_apartados()
+        print("Bienvenido a la preconfiguracion")
+        username = input("Ingrese el nombre de usuario: ")
+        password = getpass.getpass("Ingrese la contraseña: ")
+        crear_usuario(username, password, dbpath)
+        return True
 
-    B1 = ('''
-El bloc de notas abrirá en un momento
-    ''')
+def realizar_login(dbpath):
+    username_input = str(input("Escribe tu nombre:"))
+    password_input = getpass.getpass("Ingrese el password:")
+    if verificar_credenciales_default(username_input, password_input):
+        return True
+    else:
+        while not verificar_credenciales(username_input, password_input, dbpath):
+            password_input = getpass.getpass("Ingrese correctamente el password: ")
+        return True
 
-    window = str(input("¿Qué apartado deseas abrir (M imprime los apartados) ? : "))
+def inicio_sesion(db_path):
+    while True:
+        if realizar_preconfiguracion(db_path):
+            print("Bienvenido")
+            print("Login default, username: root, password: root")
+            if realizar_login(db_path):
+                limpiar_consola()  # Limpiar la consola solo antes de mostrar el menú
+                while True:
+                    print("Bienvenido a PhantomAK feather")
+                    print("username_input")
+                    print("Creado por Gael Meza")
+                    print("Hoy es:")
+                    print(time.strftime("%d/%m/%y"))
+                    hora_actual = datetime.now().strftime("%H:%M:%S")
+                    print(f"La hora es: {hora_actual}")
 
-    if window == "":
-        print("Por favor, ingrese un apartado.")
-        continue
+                    mostrar_menu_apartados()
 
-    if window == "B1":
-        print(B1)
-        import Bloc
+                    window = str(input("¿Qué apartado deseas abrir (M imprime los apartados) ? : "))
 
-    elif window == "S5":
-        print ("Configuracion del sistema")
-        print("Puede enviar un correo electrónico a g_meza3@icloud.com, para informar sobre el problema.")
+                    if window == "":
+                        print("Por favor, ingrese un apartado.")
+                        continue
 
-    elif window == "C2":
-        print("La Calculadora iniciará en un momento...")
-        subprocess.run(["python", "calculadora.py"])
+                    if window == "B1":
+                        limpiar_consola()
+                        print("El bloc de notas abrirá en un momento")
+                        # Aquí iría la lógica para abrir el bloc de notas
 
-    elif window == "A3":
-        subprocess.run(["python", "acerca_sistema.py"])
+                    elif window == "S5":
+                        limpiar_consola()
+                        print("Configuración del sistema")
+                        print("Puede enviar un correo electrónico a g_meza3@icloud.com, para informar sobre el problema.")
 
-    elif window == "R4":
-        import Musica
+                    elif window == "C2":
+                        limpiar_consola()
+                        print("La Calculadora iniciará en un momento...")
+                        subprocess.run(["python", "calculadora.py"])
 
-    elif window == "A6":
-        system_platform = platform.system()
-        if system_platform == "Windows":
-            # Comando para apagar en Windows
-            subprocess.run(["shutdown", "/s", "/t", "0"])
-        elif system_platform == "Linux" or system_platform == "Darwin":
-            # Comando para apagar en Linux o Mac
-            subprocess.run(["shutdown", "-h", "now"])
-        else:
-            print("Apagado no compatible con el sistema: {system_platform}")
+                    elif window == "A3":
+                        limpiar_consola()
+                        subprocess.run(["python", "acerca_sistema.py"])
 
-    elif window == "C5":
-        exec(open("clima.py").read())
+                    elif window == "R4":
+                        limpiar_consola()
+                        print("Reproductor iniciará en un momento...")
+                        # Aquí iría la lógica para iniciar el reproductor
 
-    elif window == "U7":
-        print("Crear nuevo usuario:")
-        nuevo_username = input("Ingrese el nuevo nombre de usuario: ")
-        nuevo_password = getpass.getpass("Ingrese la nueva contraseña: ")
-        crear_usuario(nuevo_username, nuevo_password, 'credentials.db')
+                    elif window == "A6":
+                        limpiar_consola()
+                        system_platform = platform.system()
+                        if system_platform == "Windows":
+                            # Comando para apagar en Windows
+                            subprocess.run(["shutdown", "/s", "/t", "0"])
+                        elif system_platform == "Linux" or system_platform == "Darwin":
+                            # Comando para apagar en Linux o Mac
+                            subprocess.run(["shutdown", "-h", "now"])
+                        else:
+                            print(f"Apagado no compatible con el sistema: {system_platform}")
 
+                    elif window == "C5":
+                        limpiar_consola()
+                        print("La aplicación de clima se abrirá en un momento...")
+                        # Aquí iría la lógica para abrir la aplicación de clima
+
+                    elif window == "T7":
+                        limpiar_consola()
+                        if platform.system()== "Windows":
+                            subprocess.run("cmd")
+                        else:
+                            subprocess.run("bash")
+
+
+                    elif window == "C8":
+                        limpiar_consola()
+                        print("Cerrando sesión...")
+                        break  # Salir del bucle interno y volver al inicio de sesión
+
+inicio_sesion('credentials.db')
